@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "id": "u-staff-1",
+      "name": "County Administrator",
+      "email": "admin@muranga.go.ke",
+      "staffNo": "MCG-0001",
+      "phone": "",
+      "role": "admin",
+      "idHash": "33657cd70e822236c9a49528207e3374$08f8bff107dc6e4d6b6c5a9700828b58cea8bdabe0726badfc3bbfd372129fc6"
+    },
+    {
+      "id": "u-staff-2",
+      "name": "Public Works Officer",
+      "email": "works@muranga.go.ke",
+      "staffNo": "MCG-0002",
+      "phone": "",
+      "role": "admin",
+      "idHash": "248f1cddecaa50780192193abac097ac$2007a067df1aaf7c0418b36a63b6bf188eec849384c6322fb8a86ad0731c0e39"
+    },
+    {
+      "id": "u-staff-3",
+      "name": "Water and Sanitation Officer",
+      "email": "water@muranga.go.ke",
+      "staffNo": "MCG-0003",
+      "phone": "",
+      "role": "admin",
+      "idHash": "201a84821caef2c0bdc6489dff30d0ca$8d369341252c1dfd17df5d4152da3c9d782237e5966813a8c262c7c7f2df0cfa"
+    },
+    {
+      "id": "u-c96ac48ac419",
+      "name": "Dennis Karanja Wambui",
+      "email": "denranjoz5389@gmail.com",
+      "phone": "0793012102",
+      "role": "citizen",
+      "password": "2f248e39b0f2328c09132e869127c2f9$0c1b6c107c3e0ab52dbd6f66675fca71b9719333f8ee17e20a0764b3eac77477"
+    }
+  ],
+  "requests": [],
+  "codes": {},
+  "sessions": {}
+}
