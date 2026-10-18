@@ -1,4 +1,4 @@
-// Vercel serverless entry point: every /api/... call lands here and uses the same
+// Vercel serverless entry point: every /api/... call is routed here and uses the same
 // rules (shared/core.js) as the local Express server.
 import { webcrypto } from "node:crypto";
 import { createCore } from "../shared/core.js";
@@ -9,7 +9,10 @@ const core = createCore(webcrypto);
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   try {
-    const path = new URL(req.url, "http://localhost").pathname.slice(4);
+    // vercel.json sends every /api/... call here with the rest of the path in ?path=
+    const url = new URL(req.url, "http://localhost");
+    const fromQuery = url.searchParams.get("path");
+    const path = "/" + (fromQuery !== null ? fromQuery : url.pathname.replace(/^\/api\/?/, ""));
     if (path === "/health") return res.status(200).json(await health());
 
     const db = await loadDb(core);
