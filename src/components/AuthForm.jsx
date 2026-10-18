@@ -21,7 +21,7 @@ export default function AuthForm({ onAuth }) {
 
   const go = (next) => { setMode(next); setError(""); setNotice(""); };
   const pickRole = (r) => { setRole(r); go("login"); };
-  const show = (msg) => (msg.startsWith("err.") ? t(msg) : msg);
+  const show = (e) => (e.message.startsWith("err.") ? t(e.message) : e.message) + (e.detail ? ` [${e.detail}]` : "");
   const staff = mode === "login" && role === "admin";
 
   async function submit(e) {
@@ -51,12 +51,12 @@ export default function AuthForm({ onAuth }) {
         go("login");
         setNotice(t("msg.pwUpdated"));
       }
-    } catch (err) { setError(show(err.message)); }
+    } catch (err) { setError(show(err)); }
   }
 
   async function resend() {
     try { setMail(await store.resendCode(f.email.trim().toLowerCase(), mode === "verify" ? "register" : "reset")); setNotice(t("msg.newCode")); }
-    catch (err) { setError(show(err.message)); }
+    catch (err) { setError(show(err)); }
   }
 
   return (

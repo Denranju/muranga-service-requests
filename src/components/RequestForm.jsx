@@ -2,9 +2,28 @@ import { useState } from "react";
 import { CATEGORIES, SUB_COUNTIES } from "../config.js";
 import { useLang } from "../i18n.jsx";
 
-const MAX_IMG = 500 * 1024;
+const MAX_IMG = 5 * 1024 * 1024; // chosen file; it is shrunk before upload
 
-// Form residents use to report a problem. Photo is optional and limited to 500KB.
+// Scales the photo down (max 900px, JPEG) so it stays small to store and send.
+function compress(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, 900 / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/jpeg", 0.7));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+// Form residents use to report a problem. The photo is optional.
 export default function RequestForm({ onSubmit }) {
   const { t } = useLang();
   const empty = { category: CATEGORIES[0], subCounty: SUB_COUNTIES[0], location: "", description: "", image: "" };
@@ -18,9 +37,7 @@ export default function RequestForm({ onSubmit }) {
     if (!file.type.startsWith("image/")) return setError(t("err.img"));
     if (file.size > MAX_IMG) { e.target.value = ""; return setError(t("err.imgSize")); }
     setError("");
-    const reader = new FileReader();
-    reader.onload = () => setF((p) => ({ ...p, image: reader.result }));
-    reader.readAsDataURL(file);
+    compress(file).then((image) => setF((p) => ({ ...p, image }))).catch(() => setError(t("err.img")));
   }
 
   function submit(e) {

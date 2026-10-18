@@ -14,7 +14,11 @@ async function call(method, path, body) {
   } catch { throw new Error("err.network"); }
   let data = {};
   try { data = await res.json(); } catch { /* empty body */ }
-  if (!res.ok) throw new Error(data.error || "err.server");
+  if (!res.ok) {
+    const error = new Error(data.error || "err.server");
+    error.detail = data.detail;
+    throw error;
+  }
   return data;
 }
 
