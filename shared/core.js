@@ -198,7 +198,7 @@ export function createCore(crypto) {
     } catch (err) {
       if (err instanceof ApiError) return { status: err.status, body: { error: err.message }, changed: request.method !== "GET" };
       console.error(err);
-      return { status: 500, body: { error: "err.server" }, changed: false };
+         return { status: 500, body: { error: "err.server", detail: String((err && err.message) || err).slice(0, 200) }, changed: false };
     }
   }
 
